@@ -39,7 +39,7 @@ The python application will search within the nested-structure using a "contains
 
 ## Examples
 
-Search for any industry title that contains the word "Establishments": 
+Search for any industry title that contains the word "aquaculture": 
 
 ```text
 $ python main.py search --title 'aquaculture' --exact
@@ -66,7 +66,7 @@ $ python main.py search --title 'aquaculture' --exact
 ]
 ```
 
-Search for any industries that resemble the following: "nonclassifiable est"
+Search for any industries that resemble the following: "no classifiable"
 
 
 ```text
