@@ -2,11 +2,13 @@ import logging
 import fire
 
 from model.industry import SIC
-from util import StringWrapper, pretty_print_dictionary
+from util import StringWrapper, pretty_print, timeit
 
 
 URL = "https://www.osha.gov/pls/imis/sic_manual.html"
-INDUSTRY_FILE = "industries.json"
+DEFAULT_INDUSTRY_FILE = "industries.json"
+
+logger = logging.getLogger(__name__)
 
 
 class Main(object):
@@ -23,13 +25,16 @@ class Main(object):
         return successful_search
 
     @staticmethod
-    def download(filename=INDUSTRY_FILE):
+    @timeit(logger)
+    def download(filename=DEFAULT_INDUSTRY_FILE):
+        logging.info("Starting download procedure.")
         sic = SIC.from_url(URL)
         with open(filename, "w") as file:
             file.write(sic.jsonify())
 
-    @pretty_print_dictionary
-    def search(self, title, exact=False, filename=INDUSTRY_FILE):
+    @timeit(logger)
+    @pretty_print(logger)
+    def search(self, title, exact=False, filename=DEFAULT_INDUSTRY_FILE):
         target_title = StringWrapper(value=title)
         sic_industries = SIC.load_json(filename)
         return [node for node in sic_industries["children"] if self._recursive_search(node, target_title, exact)]
